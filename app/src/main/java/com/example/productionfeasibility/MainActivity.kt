@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         Setting("syrupPercent", "درصد مصرف شربت در ۱ کیلوگرم محصول", "درصد"),
         Setting("productCapacity", "ظرفیت ساخت محصول در یک شیفت", "کیلوگرم"),
         Setting("syrupCapacity", "ظرفیت ساخت شربت در ۲۴ ساعت", "کیلوگرم"),
-        Setting("pack1", "ظرفیت بسته‌بندی خط ۱ لیتری در یک شیفت", "کارتن"),
-        Setting("pack4", "ظرفیت بسته‌بندی خط ۴ لیتری در یک شیفت", "کارتن"),
-        Setting("pack20", "ظرفیت بسته‌بندی خط ۲۰ لیتری در یک شیفت", "سطل")
+        Setting("pack1", "ظرفیت بسته‌بندی یک خط ۱ لیتری در یک شیفت", "کارتن"),
+        Setting("pack4", "ظرفیت بسته‌بندی یک خط ۴ لیتری در یک شیفت", "کارتن"),
+        Setting("pack20", "ظرفیت بسته‌بندی یک خط ۲۰ لیتری در یک شیفت", "سطل")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -179,6 +179,11 @@ class MainActivity : AppCompatActivity() {
         val p1 = if (need1 == 0.0) 0 else ceil(need1 / cfg.getValue("pack1")!!).toInt()
         val p4 = if (need4 == 0.0) 0 else ceil(need4 / cfg.getValue("pack4")!!).toInt()
         val p20 = if (need20 == 0.0) 0 else ceil(need20 / cfg.getValue("pack20")!!).toInt()
+        // Keep the daily demand values when the results page is opened,
+        // so returning to the input page restores the user's entries.
+        demandValues["need1"] = fields["need1"]?.text?.toString() ?: ""
+        demandValues["need4"] = fields["need4"]?.text?.toString() ?: ""
+        demandValues["need20"] = fields["need20"]?.text?.toString() ?: ""
         showResults(productKg, productResult, syrupKg, syrupResult,
             listOf(PackResult("محصول ۱ لیتری", p1), PackResult("محصول ۴ لیتری", p4), PackResult("محصول ۲۰ لیتری", p20)))
     }
